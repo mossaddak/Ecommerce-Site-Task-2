@@ -1,0 +1,296 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Products{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        vertical-align: middle;
+    }
+
+    .card {
+        margin: auto;
+        width: 90%;
+        max-width: 800px;
+        padding: 4vh 0;
+        box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        border-top: 3px solid black;
+        border-bottom: 3px solid black;
+        border-left: none;
+        border-right: none
+    }
+
+    @media(max-width:768px) {
+        .card {
+            width: 90%
+        }
+    }
+
+    .title {
+        color: black;
+        font-weight: 600;
+        margin-bottom: 2vh;
+        padding: 0 8%;
+    }
+    .view_details_btn{
+        margin-bottom: 2vh;
+    }
+
+    #details {
+        font-weight: 400
+    }
+
+    .info {
+        padding: 5% 8%
+    }
+
+    .info .col-5 {
+        padding: 0
+    }
+
+    #heading {
+        color: grey;
+        line-height: 6vh
+    }
+
+    #progressbar {
+        margin-bottom: 3vh;
+        overflow: hidden;
+        color: black;
+        padding-left: 0px;
+        margin-top: 3vh
+    }
+
+    #progressbar li {
+        list-style-type: none;
+        font-size: 12px;
+        width: 25%;
+        float: left;
+        position: relative;
+        font-weight: 400;
+        color: rgb(160, 159, 159)
+    }
+    
+
+    #progressbar #step1:before {
+        content: "";
+        color: black;
+        width: 5px;
+        height: 5px;
+        margin-left: 0px !important
+    }
+
+    #progressbar #step2:before {
+        content: "";
+        color: #fff;
+        width: 5px;
+        height: 5px;
+        margin-left: 32%;
+    }
+
+
+    #progressbar #step3:before {
+        content: "";
+        color: #fff;
+        width: 5px;
+        height: 5px;
+        margin-right: 32%
+    }
+
+    #progressbar #step4:before {
+        content: "";
+        color: #fff;
+        width: 5px;
+        height: 5px;
+        margin-right: 0px !important
+    }
+
+    #progressbar li:before {
+        line-height: 29px;
+        display: block;
+        background: #ddd;
+        border-radius: 50%;
+        margin: auto;
+        z-index: -1;
+        margin-bottom: 1vh
+    }
+
+    #progressbar li:after {
+        content: '';
+        height: 2px;
+        background: #ddd;
+        position: absolute;
+        left: 0%;
+        right: 0%;
+        margin-bottom: 2vh;
+        top: 1px;
+        z-index: 1
+    }
+
+    .progress-track {
+        padding: 0 8%
+    }
+
+    #progressbar li:nth-child(2):after {
+        margin-right: auto
+    }
+
+    #progressbar li:nth-child(1):after {
+        margin: auto
+    }
+
+    #progressbar li:nth-child(3):after {
+        float: left;
+        width: 68%
+    }
+
+    #progressbar li:nth-child(4):after {
+        margin-left: auto;
+        width: 132%
+    }
+
+    #progressbar li.active {
+        color: black
+    }
+
+    #progressbar li.active:before,
+    #progressbar li.active:after {
+        background: black;
+        width: 100%;
+    }
+
+    .pricing_container{
+            font-size: 13px;
+        }
+
+    @media(max-width:768px) {
+        #progressbar li {
+        font-size: 7px;
+        }
+
+        .pricing_container{
+            font-size: 10px;
+        }
+    }
+</style>
+<section class="py-5 justify-content-center">
+
+    <div class="container">
+        <div class="card mt-5">
+            <div class="tracking mx-3 mx-md-5 mx-lg-5">
+
+                <div class="row">
+                    <div class="col-12 col-md-6 col-lg-6">
+                        <div class="poppins_font" style="font-weight: 600;">
+                            {{TrackingOrder.Title}}
+                        </div>
+                        <small class="d-block" style="font-size: 12px;">Placed by {{TrackingOrder.createdDate}}</small>
+                        <small class="d-block" style="font-size: 12px;">Order ID: {{TrackingOrder.id}}</small>
+                        <small class="d-block" style="font-size: 12px;">Order Status: <b style="color:{% if TrackingOrder.OrderStatus == 'Canceled' %} red; {% else %}green; {% endif %}">{% if TrackingOrder.OrderStatus != None %} {{TrackingOrder.OrderStatus}} {% else %} Wait {% endif %}</b></small>
+                        
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-6 text-end">
+                        <a class="btn" style="background-color: black; color:white; font-size: 13px;" href="{% url 'ProductDetails' TrackingOrder.Product.pk %}">View Details</a>
+                    </div>
+                </div>
+                <hr>
+
+                <div class="row pricing_container">
+                    <div class="col-4">
+                        <p>Price</p>
+                        <p>Qty</p>
+                        <p>Shipping</p>
+                        <p>Total</p>
+                        
+                    </div>
+                    <div class="col-1">
+                        <p>: </p>
+                        <p>: </p>
+                        <p>: </p>
+                    </div>
+                    <div class="col-6 text-end">
+                        {% if TrackingOrder.offer_price %}
+                        <p>৳ <span class="order_price">{{offer_price.offer_price}}</span></p>
+                        {% else %}
+                        <p>৳ <span class="order_price">{{TrackingOrder.Price}}</span></p>
+                        {% endif %}
+                        <p class="product_quantity">{{TrackingOrder.Quantity}}</p>
+                        <p>৳ <span class="shipping_fee">50</span></p>
+                        <hr>
+                        <p>৳ <span class="total_price"></span></p>
+                    </div>
+                </div>
+
+                <!-- total price calculation -->
+                <script>
+                    var ProductPrice = document.querySelector('.order_price').innerHTML;
+                    var ProductQuantity = document.querySelector('.product_quantity').innerHTML;
+                    var ShippingFee = document.querySelector('.shipping_fee').innerHTML;
+                    document.querySelector('.total_price').innerHTML = parseInt(ProductPrice)*parseInt(ProductQuantity)+parseInt(ShippingFee);
+                </script>
+  
+            </div>
+            
+        </div>
+
+
+        <!-- tracking -->
+        <div class="card mt-5">
+            <div class="tracking">
+                <div class="title">Tracking Order</div>
+            </div>
+            <div class="progress-track">
+
+                {% if TrackingOrder.OrderStatus == 'Processing' %}
+                <ul id="progressbar" >
+                    <li class="step0 active " id="step1">Processing</li>
+                    <li class="step0 text-center" id="step2">Shipped</li>
+                    <li class="step0 text-end" id="step3">On the way</li>
+                    <li class="step0 text-end" id="step4">Delivered</li>
+                </ul>
+
+                {% elif TrackingOrder.OrderStatus == 'Shipped' %}
+                <ul id="progressbar" >
+                    <li class="step0 active " id="step1">Processing</li>
+                    <li class="step0 active text-center" id="step2">Shipped</li>
+                    <li class="step0 text-end" id="step3">On the way</li>
+                    <li class="step0 text-end" id="step4">Delivered</li>
+                </ul>
+
+                {% elif TrackingOrder.OrderStatus == 'On the way' %}
+                <ul id="progressbar" >
+                    <li class="step0 active " id="step1">Processing</li>
+                    <li class="step0 active text-center" id="step2">Shipped</li>
+                    <li class="step0 active text-end" id="step3">On the way</li>
+                    <li class="step0 text-end" id="step4">Delivered</li>
+                </ul>
+
+                {% elif TrackingOrder.OrderStatus == 'Delivered' %}
+                <ul id="progressbar" >
+                    <li class="step0 active " id="step1">Processing</li>
+                    <li class="step0 active text-center" id="step2">Shipped</li>
+                    <li class="step0 active text-end" id="step3">On the way</li>
+                    <li class="step0 active text-end" id="step4">Delivered</li>
+                </ul>
+
+                {% else %}
+                <ul id="progressbar" >
+                    <li class="step0 " id="step1">Processing</li>
+                    <li class="step0 text-center" id="step2">Shipped</li>
+                    <li class="step0 text-end" id="step3">On the way</li>
+                    <li class="step0 text-end" id="step4">Delivered</li>
+                </ul>
+
+                {% endif %}
+
+
+            </div>
+        </div>
+
+        
+    </div>
+    
+
+</section>
+
+{% endblock %}

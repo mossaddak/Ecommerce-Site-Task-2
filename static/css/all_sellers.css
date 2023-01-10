@@ -1,0 +1,9 @@
+.all_users{
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.total_user_product_label_container{
+    text-decoration: none;
+    color: black;
+    cursor: pointer !important;
+}

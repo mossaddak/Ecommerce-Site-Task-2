@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Products{% endblock %}
+
+{% block content %}
+<section class="py-5 justify-content-center">
+    <div class="container pb-5">
+
+    {% if request.user.is_superuser %}
+    <h5><b class="text-primary">{{user.first_name}}</b>'s Products ({{SpecificUserProductsForAdmin.count}})</h5>
+    <hr>
+        <div class="py-3 row justify-content-center">
+
+            {% for SpecificUserProductsForAdmin in SpecificUserProductsForAdmin %}
+            <div class="card col-8 col-md-5 col-lg-3 col-md-2 mx-3 my-2" >
+
+                <!-- seller info -->
+                <div class="mt-2">
+                    <span class="badge bg-dark">ID:{{SpecificUserProductsForAdmin.id}}</span>
+                </div>
+
+                
+                <img src="{{SpecificUserProductsForAdmin.image.url}}" class="card-img-top mt-3" alt="product image">
+                <div class="card-body">
+                    <h5 class="card-title">{{SpecificUserProductsForAdmin.title}}</h5>
+
+                    <!-- user rating -->
+                    <div class="star_container my-2" style="font-size: 14px;">
+                            
+
+                        {% if SpecificUserProductsForAdmin.AverageRating < 1 %}
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+
+                        {% elif SpecificUserProductsForAdmin.AverageRating < 2 %}
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+
+                        {% elif SpecificUserProductsForAdmin.AverageRating < 3 %}
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+
+                        {% elif SpecificUserProductsForAdmin.AverageRating < 4 %}
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+
+                        {% elif SpecificUserProductsForAdmin.AverageRating < 5 %}
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star"></i>
+
+                        {% else %}
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star star_active"></i>
+
+                        {% endif %}
+                        ({{SpecificUserProductsForAdmin.countReview}})
+
+                    </div>
+
+
+                    <p class="product_price">{{SpecificUserProductsForAdmin.price}} Tk</p>
+                    <p class="card-text product_description">{{SpecificUserProductsForAdmin.description|slice:":70"}}...</p>
+
+
+                    <!-- buy -->
+                    <a href="{% url 'OrderProduct' SpecificUserProductsForAdmin.pk %}" class="btn btn-primary"><i class="fas fa-shopping-cart"></i></a>
+
+                    <!-- view -->
+                    <a href="{% url 'ProductDetails' SpecificUserProductsForAdmin.pk %}" class="btn btn-primary"><i class="fas fa-eye"></i></a>
+
+                    <!-- user -->
+                    {% if SpecificUserProductsForAdmin.user.is_superuser %}
+                    <a href="{% url 'Dashboard' %}" class="btn btn-primary"><i class="fas fa-user"></i></a>
+                    {% else %}
+                    <a href="{% url 'UserProfile' SpecificUserProductsForAdmin.user.pk %}" class="btn btn-primary"><i class="fas fa-user"></i></a>
+                    {% endif %}
+
+                    <!-- edit -->
+                    <a href="{% url 'UpdateProduct' SpecificUserProductsForAdmin.pk %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                    
+                    <!-- delete -->
+                    <a href="{% url 'DeleteProduct' SpecificUserProductsForAdmin.pk %}" class="btn btn-primary"><i class="fas fa-trash-alt"></i></a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+    <h5 class="text-center text-danger">You've entered wrong url !</h5>
+    {% endif %}
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Customer Order{% endblock %}
+
+{% block content %}
+<section class="py-5 justify-content-center">
+    <div class="container pb-5">
+
+        <h5>Customer Order ({{CustomerOrder.count}})</h5>
+        <hr>
+
+        <!-- message -->
+        {% if messages %}
+        {% include 'message.html' %}
+        {% endif %}
+
+        {% if user.is_superuser %}
+        {% for CustomerOrder in CustomerOrder %}
+        <div class="px-4 py-3 all_users my-4">
+            <div class="d-flex">
+                <h5 class="d-flex me-auto">{{CustomerOrder.Product.title}}</h5>
+                <p class="ms-auto">Order Id: {{CustomerOrder.pk}}</p>
+            </div>
+            <div class="user_info_title">
+                <label style="font-weight: 600;">Buyer:</label> {{CustomerOrder.user.first_name}} {{CustomerOrder.user.last_name}}<br>
+                <label style="font-weight: 600;">Seller:</label> {{CustomerOrder.Product.user.first_name}} {{CustomerOrder.Product.user.last_name}}<br>
+                <label class="user_info_title" style="font-weight: 600;">Price:</label> {{CustomerOrder.Product.price}} tk<br>
+                <label class="user_info_title" style="font-weight: 600;">QTY:</label> {{CustomerOrder.Quantity}}<br>
+            </div>
+
+            <!-- buttons -->
+            <div class="d-flex my-2">
+                <a href="{% url 'ProductDetails' CustomerOrder.Product.pk %}" class="btn btn-primary d-block my-1 mx-1"><i class="fas fa-eye"></i></a>
+            </div>
+            
+        </div>
+        {% endfor %}
+        {% else %}
+        <h5 class="text-center text-danger">You've entered wrong URL!</h5>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

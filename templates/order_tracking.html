@@ -1,0 +1,26 @@
+<!-- Modal -->
+<div class="modal fade" id="TrackingOrderModal" tabindex="-1" aria-labelledby="TrackingOrderModal" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="TrackingOrderModal">Track Your Order</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form action="{% url 'OrderTracking' %}" method="GET" class="custom_form">
+                {% csrf_token %}
+    
+                <!-- order id -->
+                <div class="form_content_container">
+                    <label>Leave Order Id</label>
+                    <input type="text" name="orderTracking"required>
+                </div>
+    
+                <div class="form_content_container">
+                    <button type="submit" class="btn btn-primary">Track Order</button>
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>

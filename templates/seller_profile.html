@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<section class="py-5 justify-content-center">
+    <div class="container pb-5">
+        <div class="row justify-content-center">
+
+            {% if user.is_superuser %}
+            <!-- dashboard left side -->
+            <div class="profile_left col-10 col-md-10 col-lg-4 py-5 mx-2 my-2">
+                <div class="profile_image">
+
+
+                    <img src="{{ UserDetails.profile_image.url }}" alt="profile picture">
+   
+                </div>
+                <div class="profile_left_body">
+                    <div class="my-4">
+                        <h3 class="text-center profile_heading my-4">{{ UserDetails.first_name }} {{ UserDetails.last_name }}</h3>
+                        <h6 class="text-center">
+                            {% if UserDetails.user.is_superuser %}
+                            Admin
+                            {% else %}
+                            Seller
+                            {% endif %}
+                        </h6>
+                    </div>
+                    
+                    <div class="text-center px-5">
+                        <a href="#!" class="btn btn-dark text-center d-block my-2" data-bs-toggle="modal" data-bs-target="#ProfilePictureModalForAdmin">Change Profile Picture</a>
+                        <a href="{% url 'SpecificUsersProductForAdmin' UserDetails.pk  %}" class="btn btn-dark text-center d-block my-2">{{UserDetails.productsRelatedName.count}} Products</a>
+                        <a href="#!" class="btn btn-dark text-center d-block my-2">0 Complete Order</a>
+                        
+                    </div>
+
+                    {% include "profile_picture_modal_for_admin.html" %}
+                    
+                </div>
+                
+            </div>
+
+            <!-- dashboard right side -->
+            <div class="profile_right col-10 col-md-10 col-lg-7 mx-2 py-5 px-5 my-2">
+                {% if messages %}
+                {% include 'message.html' %}
+                {% endif %}
+                <form class="profile_form" method="POST">
+                    {% csrf_token %}
+    
+                    <!-- username -->
+                    <div class="profile_form_input_container my-1">
+                        <input class="profile_form_input form-control" name="username" value="{{ UserDetails.username }}" placeholder="Username" type="text">
+                        <p class="form_error">{{form.username.errors}}</p>
+                    </div>
+    
+                    <!-- first name -->
+                    <div class="profile_form_input_container  my-1">
+                        <input class="profile_form_input form-control" name="first_name" type="text" value="{{ UserDetails.first_name }}" placeholder="First Name">
+                        <!-- <p class="form_error" style="color: red; font-size:14px;">{{form.last_name.errors}}</p> -->
+                    </div>
+    
+                    <!-- last name -->
+                    <div class="profile_form_input_container  my-1">
+                        <input class="profile_form_input form-control" name="last_name" type="text" value="{{ UserDetails.last_name }}" placeholder="Last Name">
+                        <!-- <p class="form_error" style="color: red; font-size:14px;">{{form.last_name.errors}}</p> -->
+                    </div>
+    
+                    <!-- email -->
+                    <div class="profile_form_input_container  my-1">
+                        <input class="profile_form_input form-control" name="email" type="email" value="{{ UserDetails.email }}" placeholder="Email">
+                        <!-- <p class="form_error" style="color: red; font-size:14px;">{{form.email.errors}}</p> -->
+                    </div>
+    
+                    <!-- phone -->
+                    <div class="profile_form_input_container  my-1">
+                        <input class="profile_form_input profle_form_phone_input form-control" name="phone_number" type="number" value="{{ UserDetails.phone_number }}"placeholder="Phone">
+                        <!-- <p class="form_error" style="color: red; font-size:14px;">{{form.phone_number.errors}}</p> -->
+                    </div>
+    
+                    <!-- district -->
+                    <div class="profile_form_input_container  my-1">
+                        <input class="profile_form_input form-control" name="district" type="text" value="{{ UserDetails.district }}" placeholder="District">
+                        <!-- <p class="form_error" style="color: red; font-size:14px;">{{form.district.errors}}</p> -->
+                    </div>
+    
+                    <!-- Thana -->
+                    <div class="profile_form_input_container  my-1">
+                        <input class="profile_form_input form-control" name="thana" type="text" value="{{ UserDetails.thana }}" placeholder="Thana">
+                        <!-- <p class="form_error" style="color: red; font-size:14px;">{{form.thana.errors}}</p> -->
+                    </div>
+    
+                    <!-- Post Office -->
+                    <div class="profile_form_input_container  my-1">
+                        <input class="profile_form_input form-control" name="post_office" type="text" value="{{ UserDetails.post_office }}" placeholder="Post Office">
+                        <!-- <p class="form_error" style="color: red; font-size:14px;">{{form.post_office.errors}}</p> -->
+                    </div>
+    
+                    <!-- Password -->
+                    <div class="profile_form_input_container  my-1">
+                        <input class="profile_form_input form-control" name="new_password" value="" type="password" placeholder="Password">
+                        <p class="form_error" style="color: red; font-size:14px;">{{ form.password.errors }}</p>
+                    </div>
+    
+                    <!-- Confirm password -->
+                    <div class="profile_form_input_container  my-1">
+                        <input class="profile_form_input form-control" name="confirm_password" type="password" placeholder="Confirm Password">
+                        <p class="form_error" style="color: red; font-size:14px;">{{ form.password.errors }}</p>
+                    </div>
+    
+                    <!-- submit button -->
+                    <div class="form_content_container">
+                        <button type="submit" class="submit_btn">Create</button>
+                    </div>
+    
+                    
+     
+                </form>
+            </div>
+
+            {% else %}
+            <h5 class="text-center text-danger">You've entered wrong url !</h5>
+            {% endif %}
+                
+        </div>
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,42 @@
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal{{AllFeedbackOfAProduct.id}}" tabindex="-1" aria-labelledby="exampleModal{{AllFeedbackOfAProduct.id}}" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModal{{AllFeedbackOfAProduct.id}}">Update Your Feedback</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+            <!--_________ update feedback form __________-->
+            <form action="{% url 'UpdateFeedback' AllFeedbackOfAProduct.pk %}" method="POST" class="custom_form">
+                {% csrf_token %}
+    
+                <!-- rating -->
+                <div class="form_content_container">
+                    <label>Select Rating</label>
+                    <select name="UpdateRating" id="UpdateRating" class="form-control">
+                        <option value="{{AllFeedbackOfAProduct.rating}}" style="font-size: 13px;">{{AllFeedbackOfAProduct.rating}}</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+    
+                <!-- tell about product -->
+                <div class="form_content_container">
+                    <label>Update Your Experience</label>
+                    <textarea class="form-control" rows="4" placeholder="write here..." name="UpdateFeedBACK">{{AllFeedbackOfAProduct.feedBACK}}</textarea>
+                </div>
+    
+                <div class="form_content_container">
+                    <button type="submit" class="btn btn-success">Update</button>
+                </div>
+            </form>
+
+        </div>
+      </div>
+    </div>
+  </div>

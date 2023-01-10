@@ -1,0 +1,13 @@
+.product_details{
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+.product_details_img{
+    width: 350px;
+    height: 350px;
+}
+
+.product_review_form{
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+
+}
+

@@ -1,0 +1,238 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Products{% endblock %}
+
+{% block content %}
+<section class="py-5 justify-content-center">
+    <div class="container py-5 px-5">
+
+        <!-- message -->
+        {% if messages %}
+        {% include 'message.html' %}
+        {% endif %}
+    
+
+        <!-- product details -->
+        <div class="p-5 row justify-content-center product_details">
+
+            <div class="product_details_left d-flex justify-content-center col-9 col-md-9 col-lg-5">
+                <img class="d-block product_details_img" src="{{productDetails.image.url}}" alt="details product image">
+            </div>
+
+            <div class="product_details_right col-11 col-md-11 col-lg-7 ">
+                <div class="d-flex">
+                    <h4 class="me-auto">{{productDetails.title}}</h4>
+                    <p class="ms-auto d-block">ID: {{productDetails.pk}}</p>
+                </div>
+
+                <!-- rating -->
+                <div>
+                    {% if AverageRating < 1 %}
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+
+                        {% elif AverageRating < 2 %}
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+
+                        {% elif AverageRating < 3 %}
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+
+                        {% elif AverageRating < 4 %}
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+
+                        {% elif AverageRating < 5 %}
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star"></i>
+
+                        {% else %}
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star star_active"></i>
+                        {% endif %}
+
+                        ({{TotalProductsFeedback}})
+                </div>
+
+                <p class="mt-2">Price: {{productDetails.price}} tk</p>
+                <p>{{productDetails.description}}</p>
+                <p>
+                    QTY: <input class="form-control w-50" type="number">
+                </p>
+
+                <!-- buttons -->
+                <div class="">
+                    <a href="{% url 'OrderProduct' productDetails.pk %}" class="btn btn-primary">Buy Bow</a>
+                    <a href="{% url 'ShoppingCart' productDetails.pk %}" class="btn btn-primary">Add to Cart</a>
+                </div>
+            </div>
+        </div>
+
+        <!--____________ product review section _____________-->
+        <div class="form_cntainer p-5 my-3">
+
+            <!-- feedback form header-->
+            <h1 class="form_heading">Give Feedback</h1>
+
+            <!-- rating progressbar -->
+            <div class="mt-3">
+                <div class="progress my-2">
+                    <div class="progress-bar" role="progressbar" style="width: {{ OneStarAveragePercentage }}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{ OneStarAveragePercentage }}% ({{ AllOneStar }})</div>
+                </div>
+                <div class="progress my-2">
+                    <div class="progress-bar" role="progressbar" style="width: {{ TwoStarAveragePercentage }}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{ TwoStarAveragePercentage }}% ({{ AllTwoStar }})</div>
+                </div>
+                <div class="progress my-2">
+                    <div class="progress-bar" role="progressbar" style="width: {{ ThreeStarAveragePercentage }}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{ ThreeStarAveragePercentage }}% ({{ AllThreeStar }})</div>
+                </div>
+                <div class="progress my-2">
+                    <div class="progress-bar" role="progressbar" style="width: {{ FourStarAveragePercentage }}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{ FourStarAveragePercentage }}% ({{ AllFourStar }})</div>
+                </div>
+                <div class="progress my-2">
+                    <div class="progress-bar" role="progressbar" style="width: {{ FiveStarAveragePercentage }}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{ FiveStarAveragePercentage }}% ({{ AllFiveStar }})</div>
+                </div>
+            </div>
+
+
+
+            {% if request.user.is_authenticated and request.user.id != productDetails.user.id %}
+            {% if user_has_bought_product %}
+            <form action="{% url 'ProductFeedBack' productDetails.pk %}" method="POST" class="custom_form">
+                {% csrf_token %}
+    
+                <!-- rating -->
+                <div class="form_content_container">
+                    <label>Select Rating</label>
+                    <select name="product_rating" id="product_rating" class="form-control">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+    
+                <!-- tell about product -->
+                <div class="form_content_container">
+                    <label>Share Your Experience</label>
+                    <textarea class="form-control" rows="4" placeholder="write here..." name="product_experience"></textarea>
+                </div>
+    
+                <div class="form_content_container">
+                    <button type="submit" class="submit_btn">Submit</button>
+                </div>
+            </form>
+            {% endif %}
+            {% endif %}
+
+
+        </div>
+        
+        <!-- product feedback -->
+        {% if AllFeedbackOfAProduct %}
+        <div class="product_feedback p-5">
+            {% for AllFeedbackOfAProduct in AllFeedbackOfAProduct %}
+            <div class="card p-2 my-2">
+                <div class="d-flex">
+                    <img src="{{AllFeedbackOfAProduct.user.profile_image.url}}" style="width: 40px; height: 40px;" class="rounded-circle mx-2" alt="profile photo">
+                    <div class="feedback_heading_container mt-2">
+                        <h5>{{AllFeedbackOfAProduct.user.first_name}}</h5>
+                        <small>{{AllFeedbackOfAProduct.createdDate}}</small>
+                    </div>
+
+
+                    <!-- user rating -->
+                    <div class="star_container mx-2" style="font-size: 14px;">
+
+                        {% if AllFeedbackOfAProduct.rating < 1 %}
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+
+                        {% elif AllFeedbackOfAProduct.rating < 2 %}
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+
+                        {% elif AllFeedbackOfAProduct.rating < 3 %}
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+
+                        {% elif AllFeedbackOfAProduct.rating < 4 %}
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+
+                        {% elif AllFeedbackOfAProduct.rating < 5 %}
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star"></i>
+
+                        {% else %}
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star star_active"></i>
+
+                        {% endif %}
+
+                    </div>
+  
+                    {% include 'update_feedback_modal.html' %}
+                    
+                    
+                    <div class="ms-auto">
+                        {% if request.user.id == AllFeedbackOfAProduct.user.id or request.user.is_superuser %}
+                        <a href="#!" data-bs-toggle="modal" data-bs-target="#exampleModal{{AllFeedbackOfAProduct.id}}" class="btn btn-success"><i class="fas fa-edit"></i></a>
+                        <a href="{% url 'DeleteFeedback' AllFeedbackOfAProduct.pk %}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                        {% endif %}
+                    </div>
+
+                    
+                </div>
+                <hr>
+
+                <p class="px-2">{{AllFeedbackOfAProduct.feedBACK}}</p>
+                
+            </div>
+            
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+
+    </div>
+</section>
+
+{% endblock %}

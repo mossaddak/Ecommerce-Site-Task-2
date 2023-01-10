@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}All Sellers{% endblock %}
+
+{% block content %}
+<section class="py-5 justify-content-center">
+    <div class="container pb-5">
+
+        <h5>All Users ({{AllUsers.count}})</h5>
+        <hr>
+
+        <!-- message -->
+        {% if messages %}
+        {% include 'message.html' %}
+        {% endif %}
+
+        {% if user.is_superuser %}
+        {% for AllUsers in AllUsers %}
+        <div class="px-4 py-3 all_users my-4">
+            <div class="d-flex">
+                <h5 class="d-flex me-auto">{{AllUsers.first_name}} {{AllUsers.last_name}}</h5>
+                <p class="ms-auto">Seller Id: {{AllUsers.pk}}</p>
+            </div>
+            <div class="user_info_title">
+                <label style="font-weight: 600;">Username:</label> mossaddak <br>
+                <label class="user_info_title" style="font-weight: 600;">Total Products:</label> {{AllUsers.productsRelatedName.count}}<br>
+                <label class="user_info_title" style="font-weight: 600;">Total Sell:</label> 0<br>
+            </div>
+
+            <!-- buttons -->
+            <div class="d-flex my-2">
+                <a href="{% url 'UserProfile' AllUsers.pk %}" class="btn btn-primary d-block my-1 mx-1">View Profile</a>
+                <a href="{% url 'SpecificUsersProductForAdmin' AllUsers.pk  %}" class="btn btn-primary d-block my-1 mx-1">Seller Products</a>
+                
+            </div>
+            
+        </div>
+        {% endfor %}
+        {% else %}
+        <h5 class="text-center text-danger">You've entered wrong URL!</h5>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

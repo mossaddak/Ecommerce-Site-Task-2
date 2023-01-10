@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}My Order{% endblock %}
+
+{% block content %}
+<section class="py-5 justify-content-center">
+    <div class="container pb-5">
+
+        <h5>My Order ({{request.user.ProductOrderUserRelatedName.count}})</h5>
+        <hr>
+
+        <!-- message -->
+        {% if messages %}
+        {% include 'message.html' %}
+        {% endif %}
+
+        {% if request.user.is_authenticated%}
+        {% for MyOrder in request.user.ProductOrderUserRelatedName.all %}
+        <div class="px-4 py-3 all_users my-4">
+            <div class="d-flex">
+                <h5 class="d-flex me-auto">{{MyOrder.Product.title}}</h5>
+                <p class="ms-auto">Order Id: {{MyOrder.pk}}</p>
+            </div>
+            <div class="user_info_title">
+                <label style="font-weight: 600;">Username:</label> {{MyOrder.Product.user.first_name}} {{MyOrder.Product.user.last_name}}<br>
+                <label class="user_info_title" style="font-weight: 600;">Price:</label> {{MyOrder.Product.price}} tk<br>
+                <label class="user_info_title" style="font-weight: 600;">QTY:</label> {{MyOrder.Quantity}}<br>
+                {% if MyOrder.OrderStatus == None %}
+                <span class="badge bg-success my-2" style="font-size: 12px;">Wait</span>
+                {% else %}
+                <span class="badge bg-dark my-2" style="font-size: 12px;">{{MyOrder.OrderStatus}}</span>
+                {% endif %}
+            </div>
+
+            <!-- buttons -->
+            <div class="d-flex my-2">
+                <a href="{% url 'ProductDetails' MyOrder.Product.pk %}" class="btn btn-primary d-block my-1 mx-1"><i class="fas fa-eye"></i></a>
+                
+            </div>
+            
+        </div>
+        {% endfor %}
+        {% else %}
+        <h5 class="text-center text-danger">You've entered wrong URL!</h5>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

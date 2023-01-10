@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Order Product{% endblock %}
+
+{% block content %}
+<section class="py-5 justify-content-center">
+    <div class="container pb-5">
+        <div class="form_cntainer p-5">
+
+            {% if request.user.is_authenticated %}
+            <!-- sing in header -->
+            <h1 class="form_heading">{{OrderProduct.title}}</h1>
+            {% if messages %}
+            {% include 'message.html' %}
+            {% endif %}
+
+            <form action="" method="POST" class="custom_form" novalidate="" autocomplete="off" enctype="multipart/form-data">
+                {% csrf_token %}
+    
+                <!-- username -->
+                <div class="form_content_container">
+                    <label>Username</label>
+                    <input type="text" readonly name="username" required value="{{request.user.username}}">
+                </div>
+
+                <!-- full name -->
+                <div class="form_content_container">
+                    <label>Full Name</label>
+                    <input type="text" readonly name="full_name" required value="{{request.user.first_name}} {{request.user.last_name}}">
+                </div>
+
+                <!-- email -->
+                <div class="form_content_container">
+                    <label>Email</label>
+                    <input type="text" name="email" required value="{{request.user.email}}">
+                </div>
+
+                <!-- price -->
+                <div class="form_content_container">
+                    <label>Price</label>
+                    <input type="text" name="price" required value="{{OrderProduct.price}}">
+                </div>
+
+                
+                <!-- product qty -->
+                <div class="form_content_container">
+                    <label>QTY</label>
+                    <input type="number" min="1" max="5" name="qty" required>
+                </div>
+
+                <!-- post office -->
+                <div class="form_content_container">
+                    <label>Post Office</label>
+                    <input type="text" readonly name="post_office" required value="{{request.user.post_office}}">
+                </div>
+
+                <!-- thana -->
+                <div class="form_content_container">
+                    <label>Thana</label>
+                    <input type="text" readonly name="thana" required value="{{request.user.thana}}">
+                </div>
+
+                <!-- district -->
+                <div class="form_content_container">
+                    <label>District</label>
+                    <input type="text" readonly name="district" required value="{{request.user.district}}">
+                </div>
+
+                <!-- zipcode -->
+                <div class="form_content_container">
+                    <label>Zipcode</label>
+                    <input type="text" readonly name="zipcode" required value="{{request.user.zipcode}}">
+                </div>
+    
+    
+                <div class="form_content_container">
+                    <button type="submit" class="submit_btn">Confirm Order</button>
+                </div>
+            </form>
+            {% else %}
+            <h5 class="text-center text-danger">Log Into Your account</h5>
+            {% endif %}
+
+        </div>
+    </div>
+</section>
+{% endblock %}

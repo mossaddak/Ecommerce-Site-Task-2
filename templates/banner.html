@@ -1,0 +1,32 @@
+{% load static %}
+
+<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+
+    <!-- indicator -->
+    <div class="carousel-indicators">
+        {% for i in banner_range %}
+        <button type="button" style="background-color: black;" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{i}}" class="active"
+            aria-current="true" aria-label="Slide {{i}}"></button>
+        {% endfor %}
+    </div>
+
+    <!-- banner image -->
+    <div class="carousel-inner">
+        {% for banner in banners %}
+        <div class="carousel-item {% if forloop.first %} active {% endif %}" data-bs-interval="2000">
+            <img src="{{banner.image}}" class="d-block  banner_image" alt="...">
+        </div>
+        {% endfor %}
+    </div>
+
+    <button class="carousel-control-prev btn btn-dark" type="button" data-bs-target="#carouselExampleIndicators"
+        data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next btn btn-dark" type="button" data-bs-target="#carouselExampleIndicators"
+        data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>

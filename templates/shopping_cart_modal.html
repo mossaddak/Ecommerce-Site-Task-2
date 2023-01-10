@@ -1,0 +1,42 @@
+<!-- Modal -->
+<div class="modal fade" id="ShoppingCartModal" tabindex="-1" aria-labelledby="ShoppingCartModal" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="ShoppingCartModal">Shopping Cart ({{request.user.UserShoppingCartRelatedName.all.count}})</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          {% for ShoppingCart in request.user.UserShoppingCartRelatedName.all %}
+
+          {% if ShoppingCart == None %}
+          <h5 class="text-center text-danger">No Product You added In cart</h5>
+          {% else %}
+          <div class="m-2 p-2 shopping_cart_container">
+            <div class="row">
+              <div class="shopping_cart_left col-3">
+                <img src="{{ShoppingCart.Product.image.url}}" class="mx-1 d-inline" alt="product image">
+                <p class="mt-2 ms-2">ID: {{ShoppingCart.Product.id}}</p>
+              </div>
+
+              <div class="col-9">
+                <h5 class="mx-1 " style="line-height: 0.7;">{{ShoppingCart.Product.title|slice:":20"}}...</h5>
+                <p class="mx-1  ">Price: {{ShoppingCart.Product.price}}</p>
+                <div class="d-flex">
+                  <a href="{% url 'OrderProduct' ShoppingCart.Product.pk %}" class="btn btn-primary mx-1">Buy</a>
+                  <a href="{% url 'ProductDetails' ShoppingCart.Product.pk %}" class="btn btn-primary mx-1">View</a>
+                </div>
+              </div>
+            </div>
+
+
+            
+            
+          </div>
+          {% endif %}
+
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>

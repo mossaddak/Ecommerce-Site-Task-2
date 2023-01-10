@@ -1,0 +1,24 @@
+<!-- Modal -->
+<div class="modal fade" id="ProfilePictureModal" tabindex="-1" aria-labelledby="ProfilePictureModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ProfilePictureModal">Change Your Profile</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <form action="{% url 'ChangeProfilePicture' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <input class="form-control" type="file" name="profile_image" id="image-input" accept="image/jpeg, image/png, image/jpg" required> 
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Change</button>
+                </div>
+            </form>
+            
+        </div>
+    </div>
+</div>
+
+

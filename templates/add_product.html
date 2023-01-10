@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Add Product{% endblock %}
+
+{% block content %}
+<section class="py-5 justify-content-center">
+    <div class="container pb-5">
+        <div class="form_cntainer p-5">
+
+            <!-- sing in header -->
+            <h1 class="form_heading">Add Product</h1>
+            {% if messages %}
+            {% include 'message.html' %}
+            {% endif %}
+
+            <form action="" method="POST" class="custom_form" action="" method="POST" class="needs-validation" style="font-size: 13px;" novalidate="" autocomplete="off" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                {{ form.as_p }}
+                <div class="form_content_container">
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</section>
+{% endblock %}

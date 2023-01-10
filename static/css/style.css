@@ -1,0 +1,46 @@
+.profile_left{
+    position: relative;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+.profile_image{
+    
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.profile_image img{
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+}
+.profile_heading{
+    line-height: 0.5;
+}
+
+.profile_right{
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+
+
+.product_feedback{
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+.feedback_heading_container h5,.feedback_heading_container small{
+    line-height: 0.2;
+}
+
+.star_active{
+    color: rgb(239, 172, 4);
+}
+
+
+/*================== shopping cart ==================*/
+.shopping_cart_container{
+    box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+}
+.shopping_cart_container img{
+    width: 100px;
+    height: 70px;
+}
+

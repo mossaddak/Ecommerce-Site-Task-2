@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}User's Product{% endblock %}
+
+{% block content %}
+<section class="py-5 justify-content-center">
+    <div class="container pb-5">
+        {% if user.is_superuser %}
+
+        
+        <h5>All User's Product ({{TotalUserProduct}})</h5>
+        <hr>
+        {% if messages %}
+        {% include 'message.html' %}
+        {% endif %}
+        <div class="py-3 row justify-content-center">
+
+            {% for AllUserProducts in AllUserProducts %}
+            <div class="card col-8 col-md-5 col-lg-3 col-md-2 mx-3 my-2">
+
+                <!-- seller info -->
+                <div class="mt-2">
+                    {% if AllUserProducts.user.is_superuser %}
+                    <span class="badge bg-dark">Admin</span>
+                    {% else %}
+                    <span class="badge bg-dark">Seller</span>
+                    {% endif %}
+                    <span class="badge bg-dark">{{AllUserProducts.user.first_name}}</span>
+                    <span class="badge bg-dark">ID:{{AllUserProducts.id}}</span>
+                </div>
+                
+
+
+                
+                <img src="{{AllUserProducts.image.url}}" class="card-img-top mt-3" alt="product image">
+                <div class="card-body">
+                    <h5 class="card-title">{{AllUserProducts.title}}</h5>
+                    <p class="product_price">{{AllUserProducts.price}} Tk</p>
+
+
+                    <!-- user rating -->
+                    <div class="star_container my-2" style="font-size: 14px;">
+                            
+
+                        {% if AllUserProducts.AverageRating < 1 %}
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+
+                        {% elif AllUserProducts.AverageRating < 2 %}
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+
+                        {% elif AllUserProducts.AverageRating < 3 %}
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+
+                        {% elif AllUserProducts.AverageRating < 4 %}
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+
+                        {% elif AllUserProducts.AverageRating < 5 %}
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star"></i>
+
+                        {% else %}
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star star_active"></i>
+                        <i class="fas fa-star star_active"></i>
+
+                        {% endif %}
+                        ({{AllUserProducts.countReview}})
+
+                    </div>
+                    <p class="card-text product_description">{{AllUserProducts.description|slice:":30"}}...</p>
+ 
+                    <!-- buttons -->
+                    <div>
+                        <!-- buy -->
+                        <a href="{% url 'OrderProduct' AllUserProducts.pk %}" class="btn btn-primary"><i class="fas fa-shopping-cart"></i></a>
+                        
+                        <!-- view -->
+                        <a href="{% url 'OrderProduct' AllUserProducts.pk %}" class="btn btn-primary"><i class="fas fa-eye"></i></a>
+
+
+                        <!-- user -->
+                        {% if AllUserProducts.user.is_superuser %}
+                        <a href="{% url 'Dashboard' %}" class="btn btn-primary"><i class="fas fa-user"></i></a>
+                        {% else %}
+                        <a href="{% url 'UserProfile' AllUserProducts.user.pk %}" class="btn btn-primary"><i class="fas fa-user"></i></a>
+                        {% endif %}
+
+                        <!-- edit -->
+                        <a href="{% url 'UpdateProduct' AllUserProducts.pk %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+
+                        <!-- delete -->
+                        <a href="{% url 'DeleteProduct' AllUserProducts.pk %}" class="btn btn-primary"><i class="fas fa-trash-alt"></i></a>
+                    </div>
+                    
+                </div> 
+            </div>
+            {% endfor %}
+        </div>
+
+
+        {% else %}
+        <h3 class="text-danger text-center">You've entered wrong URL !</h3>
+        {% endif %}
+    </div>
+</section>
+
+{% endblock %}

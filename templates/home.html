@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Products{% endblock %}
+
+{% block content %}
+<section class="py-5 justify-content-center">
+
+    <div class="container">
+        <!-- banner -->
+        {% include "banner.html" %}
+
+        
+        <div class="py-5">
+           
+
+            <!-- category based products -->
+            {% for Categories in Categories|slice:"6" %}
+            <!-- category heading-->
+
+            <div class="d-flex mt-5">
+                <h5>{{Categories.title}}</h5>
+                <a href="{% url 'CategoryBasedProduct' Categories.pk %}" style="font-size: 25px;" class="btn btn-primary px-3 py-1 d-block ms-auto"><i class="fas fa-arrow-square-right"></i></a>
+            </div>
+            
+            <hr>
+
+            <div class="py-3 row justify-content-center">
+                {% for products in Categories.ProductsCategoryRelatedName.all|slice:"6" %}
+                <div class="card col-8 col-md-5 col-lg-3 col-md-2 mx-3 my-2" >
+                    <img src="{{products.image.url}}" class="card-img-top mt-3" alt="product image">
+                    <div class="card-body">
+                        <h5 class="card-title">{{products.title}}</h5>
+                        <p class="product_price">{{products.price}} Tk</p>
+                        
+                        <!-- user rating -->
+                        <div class="star_container my-2" style="font-size: 14px;">
+                            
+
+                            {% if products.AverageRating < 1 %}
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+
+                            {% elif products.AverageRating < 2 %}
+                            <i class="fas fa-star star_active"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+
+                            {% elif products.AverageRating < 3 %}
+                            <i class="fas fa-star star_active"></i>
+                            <i class="fas fa-star star_active"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+
+                            {% elif products.AverageRating < 4 %}
+                            <i class="fas fa-star star_active"></i>
+                            <i class="fas fa-star star_active"></i>
+                            <i class="fas fa-star star_active"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+
+                            {% elif products.AverageRating < 5 %}
+                            <i class="fas fa-star star_active"></i>
+                            <i class="fas fa-star star_active"></i>
+                            <i class="fas fa-star star_active"></i>
+                            <i class="fas fa-star star_active"></i>
+                            <i class="fas fa-star"></i>
+
+                            {% else %}
+                            <i class="fas fa-star star_active"></i>
+                            <i class="fas fa-star star_active"></i>
+                            <i class="fas fa-star star_active"></i>
+                            <i class="fas fa-star star_active"></i>
+                            <i class="fas fa-star star_active"></i>
+
+                            {% endif %}
+                            ({{products.countReview}})
+
+                        </div>
+
+                        <p class="card-text product_description">{{products.description|slice:":30"}}...</p>
+                        <!-- buy -->
+
+
+                        {% if request.user.is_authenticated %}
+
+                        {% if request.user == products.user %}   
+                        <a href="{% url 'Dashboard' %}" class="btn btn-primary"><i class="fal fa-user-crown"></i></a>
+                        {% else %}
+                        <a href="{% url 'OrderProduct' products.pk %}" class="btn btn-primary"><i class="fas fa-shopping-cart"></i></a>
+                        {% endif %}
+                        {% else %}
+                        <a href="#!" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#LoginAlertModal"><i class="fas fa-shopping-cart" ></i></a>
+                        {% include 'login_alert.html' %}
+                        {% endif %}
+                        <!-- view -->
+                        <a href="{% url 'ProductDetails' products.pk  %}" class="btn btn-primary"><i class="fas fa-eye"></i></a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            {% endfor %}
+
+
+
+            <!-- all products -->
+            <div class="py-3 row justify-content-center">
+
+                <div class="d-flex mt-5 py-3">
+                    <h5>All Products</h5>
+                    <a href="{% url 'AllProducts'%}" style="font-size: 25px;" class="btn btn-primary px-3 py-1 d-block ms-auto"><i class="fas fa-arrow-square-right"></i></a>
+                </div>
+                <hr>
+                {% for products in AllProducts|slice:"6" %}
+                <div class="card col-8 col-md-5 col-lg-3 col-md-2 mx-3 my-2" >
+
+                    
+                    <img src="{{products.image.url}}" class="card-img-top mt-3" alt="product image">
+                    
+                    <div class="card-body">
+
+                        <h5 class="card-title">{{products.title}}</h5>
+                        <p class="product_price">{{products.price}} Tk</p>
+
+                        
+               
+                        <p class="card-text product_description">{{products.description|slice:":30"}}...</p>
+
+                        <!-- buy -->
+                        <a href="#" class="btn btn-primary"><i class="fas fa-shopping-cart"></i></a>
+                        <!-- view -->
+                        <a href="{% url 'ProductDetails' products.pk %}" class="btn btn-primary"><i class="fas fa-eye"></i></a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            
+        </div>
+
+        
+    </div>
+    
+
+</section>
+
+{% endblock %}

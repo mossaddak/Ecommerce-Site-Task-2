@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Sing In{% endblock %}
+
+{% block content %}
+<section class="py-5 justify-content-center">
+    <div class="container pb-5">
+        <div class="form_cntainer p-5">
+
+            <!-- sing in header -->
+            <h1 class="form_heading">Sing In</h1>
+            {% if messages %}
+            {% include 'message.html' %}
+            {% endif %}
+
+            <form action="" method="POST" class="custom_form">
+                {% csrf_token %}
+    
+                <!-- username -->
+                <div class="form_content_container">
+                    <label>Username</label>
+                    <input type="text" name="username"required>
+                    <p>{{form.username.errors}}</p>
+                </div>
+    
+                <!-- password -->
+                <div class="form_content_container">
+                    <label>Password</label>
+                    <input type="password" name="password" required>
+                    <p>{{form.password.errors}}</p>
+                </div>
+    
+                <div class="form_content_container">
+                    <div class="forget_account_continer">
+                        <a href="{% url 'ForgetPassword' %}">Did you forget the password?</a>
+                        <a href="#" class="dont_have_account">Don't have any account?</a>
+                    </div>
+                    
+                </div>
+    
+                <div class="form_content_container">
+                    <button type="submit" class="submit_btn">Login</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</section>
+{% endblock %}

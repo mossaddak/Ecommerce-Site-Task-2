@@ -1,0 +1,18 @@
+<!-- Modal -->
+<div class="modal fade" id="LoginAlertModal" tabindex="-1" aria-labelledby="LoginAlertModal" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="LoginAlertModal">Login Alert</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-danger">
+          Please Sing Into Your Account...
+        </div>
+        <div class="modal-footer">
+          <a href="{% url 'siungIn' %}" type="button" class="btn btn-success">Sing In</a>
+          <a href="{% url 'SingUp' %}" type="button" class="btn btn-success">Sing Up</a>
+        </div>
+      </div>
+    </div>
+  </div>
